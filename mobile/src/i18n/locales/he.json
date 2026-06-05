@@ -1,0 +1,105 @@
+{
+    "home": {
+        "searchPlaceholder": "לאן תרצה להגיע?",
+        "toggle2D": "2D",
+        "toggle3D": "3D",
+        "mapNotSupported": "תיאור מפה לא נתמך בדפדפן. אנא השתמש באפליקציה."
+    },
+    "addSpot": {
+        "title": "הוסף חניה",
+        "subtitle": "השכר את החניה שלך והתחל להרוויח",
+        "formTitle": "כותרת *",
+        "formTitlePlaceholder": "לדוגמה: חניה פרטית בתל אביב",
+        "formAddress": "כתובת מלאה *",
+        "formAddressPlaceholder": "רחוב, עיר, מיקוד",
+        "formPrice": "מחיר לשעה (₪) *",
+        "formDesc": "תיאור",
+        "formDescPlaceholder": "פרטים על המיקום הספציפי, הוראות הגעה...",
+        "availSchedule": "זמינות",
+        "availDays": "ימים זמינים",
+        "availDaysPlaceholder": "לדוגמה: א,ב,ג,ד,ה",
+        "startTime": "שעת התחלה",
+        "endTime": "שעת סיום",
+        "verification": "אימות",
+        "proofLabel": "הוכחת בעלות *",
+        "uploadPlaceholder": "העלה מסמך או חשבון",
+        "createBtn": "צור מודעה",
+        "setupPlansPrompt": "מודעת החניה נוצרה בהצלחה! האם תרצה להגדיר לה כעת מסלולי מנוי (יומי/חודשי)?",
+        "setupPlansYes": "כן, הגדר עכשיו",
+        "setupPlansNo": "אולי אחר כך"
+    },
+    "profile": {
+        "title": "פרופיל",
+        "walletBalance": "יתרת ארנק",
+        "trustScore": "דירוג אמון",
+        "mySpotsBtn": "החניות שלי",
+        "historyBtn": "היסטוריית עסקאות",
+        "supportBtn": "צור קשר עם התמיכה",
+        "logoutBtn": "התנתק",
+        "language": "שפה",
+        "english": "אנגלית (English)",
+        "hebrew": "עברית",
+        "bounties": "משימות ובאונטיס"
+    },
+    "auth": {
+        "login": "התחברות",
+        "register": "הרשמה",
+        "email": "אימייל",
+        "password": "סיסמה",
+        "name": "שם מלא",
+        "loginBtn": "היכנס",
+        "registerBtn": "צור משתמש חדש",
+        "noAccount": "אין לך חשבון? הירשם פה",
+        "haveAccount": "כבר יש לך חשבון? היכנס",
+        "verifyEmail": "אימות כתובת אימייל",
+        "verifyDesc": "הזן את 6 הספרות שנשלחו למייל",
+        "verifyBtn": "אימות",
+        "verifySuccess": "האימייל אומת בהצלחה! אפשר להתחבר."
+    },
+    "booking": {
+        "title": "הזמנות",
+        "active": "פעילות",
+        "past": "היסטוריה",
+        "start": "התחלה",
+        "end": "סיום",
+        "price": "מחיר",
+        "cancel": "בטל הזמנה",
+        "navigate": "נווט לחניה",
+        "report": "דווח על בעיה"
+    },
+    "spotDetails": {
+        "bookNow": "הזמן עכשיו",
+        "pricePerHour": "₪ לשעה",
+        "owner": "בעלים",
+        "contact": "צור קשר",
+        "report": "דווח",
+        "negotiateBtn": "הצע הצעת מנוי",
+        "plansTitle": "מסלולי מנוי זמינים"
+    },
+    "offers": {
+        "title": "משא ומתן למנויים",
+        "makeOffer": "שלח הצעה",
+        "accept": "אשר",
+        "reject": "דחה",
+        "pending": "ממתין לתשובה",
+        "accepted": "אושר",
+        "rejected": "נדחה"
+    },
+    "bounty": {
+        "title": "משימות",
+        "reward": "פרס",
+        "claim": "קח משימה",
+        "verify": "אמת רכב"
+    },
+    "common": {
+        "success": "הצלחה",
+        "error": "שגיאה",
+        "save": "שמור",
+        "cancel": "ביטול",
+        "loading": "טוען...",
+        "submit": "שלח",
+        "yes": "כן",
+        "no": "לא",
+        "close": "סגור"
+    }
+}

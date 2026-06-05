@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Local env files (credentials, Stripe secret keys, etc.)
+.env
+**/.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Expo and React Native
+.expo/
+**/android/.gradle/
+**/android/app/build/
+**/ios/build/
+**/bin/
+**/obj/
+
+# Logs
+*.log
+**/crash.log
+**/*.log
+
+# IDEs and System files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

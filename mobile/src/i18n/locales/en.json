@@ -1,0 +1,46 @@
+{
+    "home": {
+        "searchPlaceholder": "Where to?",
+        "toggle2D": "2D",
+        "toggle3D": "3D",
+        "mapNotSupported": "Map is not supported on Web preview. Please use iOS or Android emulator."
+    },
+    "addSpot": {
+        "title": "Add Parking Spot",
+        "subtitle": "List your space and start earning",
+        "formTitle": "Title *",
+        "formTitlePlaceholder": "e.g. Driveway in Tel Aviv",
+        "formAddress": "Full Address *",
+        "formAddressPlaceholder": "Street, City, Zip Code",
+        "formPrice": "Price Per Hour ($) *",
+        "formDesc": "Description",
+        "formDescPlaceholder": "Details about specific location, instructions...",
+        "availSchedule": "Availability Schedule",
+        "availDays": "Available Days",
+        "availDaysPlaceholder": "e.g. Mon,Tue,Wed,Thu,Fri",
+        "startTime": "Start Time",
+        "endTime": "End Time",
+        "verification": "Verification",
+        "proofLabel": "Proof of Ownership *",
+        "uploadPlaceholder": "Upload Document or Bill",
+        "createBtn": "Create Listing"
+    },
+    "profile": {
+        "title": "Profile",
+        "walletBalance": "Wallet Balance",
+        "trustScore": "Trust Score",
+        "mySpotsBtn": "My Parking Spots",
+        "historyBtn": "Transaction History",
+        "supportBtn": "Contact Support",
+        "logoutBtn": "Logout",
+        "language": "Language",
+        "english": "English",
+        "hebrew": "Hebrew (עברית)"
+    },
+    "common": {
+        "success": "Success",
+        "error": "Error",
+        "save": "Save",
+        "cancel": "Cancel"
+    }
+}

@@ -1,0 +1,316 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  RENTER
+  OWNER
+  ADMIN
+}
+
+enum BookingStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum BookingPaymentStatus {
+    PENDING
+    SUCCESS
+    FAILED
+    REFUNDED
+}
+
+enum IncidentStatus {
+  OPEN
+  RESOLVED
+  REJECTED
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  PAST_DUE
+}
+
+enum SubscriptionType {
+  FIXED_SCHEDULE
+  FLEXIBLE_PASS
+}
+
+enum OfferStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  CANCELLED
+}
+
+enum BountyStatus {
+  OPEN
+  CLAIMED
+  VERIFIED
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  PAYMENT
+  REFUND
+  COMPENSATION
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password      String
+  name          String
+  role          Role      @default(RENTER)
+  walletBalance Float     @default(0.0)
+  trustScore    Int       @default(100)
+  stripeAccountId String? // For handling Stripe Connect split payments to owner
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  spots         ParkingSpot[]
+  bookings      Booking[]
+  subscriptions Subscription[]
+  subscriptionPlans SubscriptionPlan[]
+  createdOffers     SubscriptionOffer[] @relation("OfferCreator")
+  receivedOffers    SubscriptionOffer[] @relation("OfferTarget")
+  reportedIncidents Incident[] @relation("Reporter")
+  violatingIncidents Incident[] @relation("Violator")
+  transactions  WalletTransaction[]
+  auditLogs     AuditLog[]
+  locationPings LocationPing[]
+  claimedBounties   Bounty[]       @relation("Claimer")
+}
+
+model ParkingSpot {
+  id          String   @id @default(uuid())
+  ownerId     String
+  owner       User     @relation(fields: [ownerId], references: [id])
+  title       String
+  description String?
+  address     String
+  latitude    Float
+  longitude   Float
+  pricePerHour Float
+  minBookingHours Int @default(1)
+  maxBookingHours Int @default(24)
+  
+  // Scheduling Logic
+  availableDays      String[]
+  availableStartTime String    @default("00:00") // Time in HH:mm
+  availableEndTime   String    @default("23:59")
+
+  proofOfOwnership String? // URL or reference to the ownership document
+  images      String[] // URLs
+  isAvailable Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  bookings    Booking[]
+  subscriptions Subscription[]
+  subscriptionPlans SubscriptionPlan[]
+  subscriptionOffers SubscriptionOffer[]
+  incidents   Incident[]
+  bounties    Bounty[]
+}
+
+model Booking {
+  id          String        @id @default(uuid())
+  spotId      String
+  spot        ParkingSpot   @relation(fields: [spotId], references: [id])
+  renterId    String
+  renter      User          @relation(fields: [renterId], references: [id])
+  startTime   DateTime
+  endTime     DateTime
+  status      BookingStatus @default(ACTIVE)
+  totalPrice  Float
+  
+  // Anti-fraud tracking
+  securityDeposit Float    @default(0.0)
+  penaltyAmount   Float    @default(0.0)
+  checkoutLat     Float?
+  checkoutLng     Float?
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  payment     Payment?
+  incidents   Incident[]
+}
+
+model Incident {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  spotId      String
+  bookingId   String?  // Optional: link to a booking if it's a dispute within a booking
+  reporterId  String
+  violatorId  String?  // The previous renter, assigned if detected
+  description String?
+  photoUrl    String?  // Required proof
+  status      IncidentStatus @default(OPEN)
+  
+  spot        ParkingSpot @relation(fields: [spotId], references: [id])
+  booking     Booking?    @relation(fields: [bookingId], references: [id])
+  reporter    User        @relation("Reporter", fields: [reporterId], references: [id])
+  violator    User?       @relation("Violator", fields: [violatorId], references: [id])
+  
+  evidence    Evidence[]
+}
+
+model Bounty {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  spotId      String
+  rewardAmount Float   @default(2.50)
+  status      BountyStatus @default(OPEN)
+  claimedById String?
+  photoUrl    String?  // Verification proof
+  
+  spot        ParkingSpot @relation(fields: [spotId], references: [id])
+  claimedBy   User?    @relation("Claimer", fields: [claimedById], references: [id])
+}
+
+model Evidence {
+  id          String   @id @default(uuid())
+  incidentId  String
+  incident    Incident @relation(fields: [incidentId], references: [id])
+  imageUrl    String
+  latitude    Float?
+  longitude   Float?
+  timestamp   DateTime @default(now())
+}
+
+model Payment {
+  id              String   @id @default(uuid())
+  bookingId       String   @unique
+  booking         Booking  @relation(fields: [bookingId], references: [id])
+  amount          Float
+  currency        String   @default("USD") // Or ILS
+  stripePaymentId String?
+  status          String   // e.g., "succeeded", "pending"
+  createdAt       DateTime @default(now())
+}
+
+model WalletTransaction {
+  id          String          @id @default(uuid())
+  userId      String
+  user        User            @relation(fields: [userId], references: [id])
+  amount      Float
+  type        TransactionType
+  description String?
+  createdAt   DateTime        @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  action    String
+  details   String?  // JSON string
+  ipAddress String?
+  createdAt DateTime @default(now())
+}
+
+model LocationPing {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  bookingId String?  // Optional relation if tracking during an active booking
+  latitude  Float
+  longitude Float
+  accuracy  Float?
+  
+  createdAt DateTime @default(now())
+}
+
+model SubscriptionPlan {
+  id                  String             @id @default(uuid())
+  spotId              String
+  ownerId             String
+  isActive            Boolean            @default(true)
+  
+  type                SubscriptionType
+  monthlyPrice        Float
+  
+  // For FLEXIBLE_PASS
+  occurrencesPerMonth Int?
+  
+  // For FIXED_SCHEDULE
+  specificDays        String[] // e.g. ["MON", "TUE", "WED"]
+  startTime           String?  // time string "09:00"
+  endTime             String?  // time string "17:00"
+
+  spot                ParkingSpot        @relation(fields: [spotId], references: [id])
+  owner               User               @relation(fields: [ownerId], references: [id])
+
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+}
+
+model SubscriptionOffer {
+  id                  String             @id @default(uuid())
+  spotId              String
+  creatorId           String   // The one who proposed
+  targetUserId        String?  // The one who receives
+  
+  type                SubscriptionType
+  monthlyPrice        Float
+  
+  // For FLEXIBLE_PASS
+  occurrencesPerMonth Int?
+  
+  // For FIXED_SCHEDULE
+  specificDays        String[] // e.g. ["MON", "TUE", "WED"]
+  startTime           String?  // time string "09:00"
+  endTime             String?  // time string "17:00"
+  
+  status              OfferStatus        @default(PENDING)
+
+  spot                ParkingSpot        @relation(fields: [spotId], references: [id])
+  creator             User               @relation("OfferCreator", fields: [creatorId], references: [id])
+  targetUser          User?              @relation("OfferTarget", fields: [targetUserId], references: [id])
+
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+}
+
+model Subscription {
+  id                  String             @id @default(uuid())
+  spotId              String
+  renterId            String
+  status              SubscriptionStatus @default(ACTIVE)
+  
+  type                SubscriptionType   @default(FIXED_SCHEDULE)
+  monthlyPrice        Float
+  
+  // For FLEXIBLE_PASS
+  occurrencesPerMonth Int?
+  
+  // For FIXED_SCHEDULE
+  specificDays        String[] // e.g. ["MON", "TUE", "WED"]
+  startTime           String?  // time string "09:00"
+  endTime             String?  // time string "17:00"
+
+  startDate           DateTime           @default(now())
+  endDate             DateTime?
+  
+  spot                ParkingSpot        @relation(fields: [spotId], references: [id])
+  renter              User               @relation(fields: [renterId], references: [id])
+  
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+}

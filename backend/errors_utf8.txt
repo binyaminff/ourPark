@@ -1,0 +1,16 @@
+﻿src/controllers/auth.controller.ts(27,53): error TS2339: Property 'errors' does not exist on type 'ZodError<unknown>'.
+src/controllers/auth.controller.ts(41,53): error TS2339: Property 'errors' does not exist on type 'ZodError<unknown>'.
+src/controllers/booking.controller.ts(14,11): error TS7030: Not all code paths return a value.
+src/controllers/booking.controller.ts(25,53): error TS2339: Property 'errors' does not exist on type 'ZodError<unknown>'.
+src/controllers/booking.controller.ts(36,63): error TS2345: Argument of type 'string | string[]' is not assignable to parameter of type 'string'.
+  Type 'string[]' is not assignable to type 'string'.
+src/controllers/booking.controller.ts(47,61): error TS2345: Argument of type 'string | string[]' is not assignable to parameter of type 'string'.
+  Type 'string[]' is not assignable to type 'string'.
+src/controllers/incident.controller.ts(19,11): error TS7030: Not all code paths return a value.
+src/controllers/incident.controller.ts(30,53): error TS2339: Property 'errors' does not exist on type 'ZodError<unknown>'.
+src/controllers/spot.controller.ts(18,11): error TS7030: Not all code paths return a value.
+src/controllers/spot.controller.ts(29,53): error TS2339: Property 'errors' does not exist on type 'ZodError<unknown>'.
+src/controllers/spot.controller.ts(36,11): error TS7030: Not all code paths return a value.
+src/controllers/spot.controller.ts(52,11): error TS7030: Not all code paths return a value.
+src/controllers/spot.controller.ts(54,56): error TS2345: Argument of type 'string | string[]' is not assignable to parameter of type 'string'.
+  Type 'string[]' is not assignable to type 'string'.
