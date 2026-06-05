@@ -9,6 +9,8 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "outDir": "./dist",
+    "rootDir": "./src",
+    "ignoreDeprecations": "5.0",
     "moduleResolution": "node",
     "removeComments": true,
     "noImplicitAny": true,
