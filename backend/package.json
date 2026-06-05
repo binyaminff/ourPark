@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc && prisma generate && node dist/server.js",
+    "build": "tsc && prisma generate",
     "start": "node dist/server.js",
+    "build:run": "tsc && prisma generate && node dist/server.js",
     "dev": "nodemon --exec ts-node src/server.ts",
     "db:init": "prisma migrate dev --name init",
     "test": "echo \"Error: no test specified\" && exit 1"
